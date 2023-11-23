@@ -40,7 +40,7 @@ const createComment = () =>({
   name: getName(),
 });
 
-function createCommentsFromPost (){ return Array.from({length: 5}, createComment);}
+function createCommentsFromPost (){ return Array.from({length: 25}, createComment);}
 
 const createPost = () =>{
   const i = getId();

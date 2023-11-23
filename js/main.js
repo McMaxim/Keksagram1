@@ -3,11 +3,12 @@
 
 import { appendpicture } from './appendpicture.js';
 import { allfunctions } from './head-photo.js';
+import './workForm.js';
 const getting = appendpicture(25);
 export const arrayPhotos = getting[1];
-// console.log(arrayPhotos);
+console.log(arrayPhotos);
 export const posts = getting[0];
-// console.log(posts);
+console.log(posts);
 // console.log(posts.children);
 allfunctions(posts,arrayPhotos);
 
