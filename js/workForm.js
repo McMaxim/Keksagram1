@@ -82,19 +82,13 @@ uploadPicture.addEventListener('change',(evt)=> {
 cancelButton.addEventListener('click', () => {
   hideModal();
 });
-hashtagField.addEventListener('mouseover',()=>{
-  console.log('sfvsf');
-  document.removeEventListener('keydown',(evt)=> {
-    console.log('sfvsf');
-    if (evt.keyCode === 27){
-      hideModal();
-    }
-  });
-});
-hashtagField.addEventListener('mouseout',()=>{
-  document.removeEventListener('keydown',(evt)=> {
-    if (evt.keyCode === 27){
-      hideModal();
-    }
-  });
-});
+// hashtagField.addEventListener('mouseover',()=>{
+//   console.log('sfvsf');
+// });
+// hashtagField.addEventListener('mouseout',()=>{
+//   document.removeEventListener('keydown',(evt)=> {
+//     if (evt.keyCode === 27){
+//       hideModal();
+//     }
+//   });
+// });
