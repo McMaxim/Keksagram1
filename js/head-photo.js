@@ -10,6 +10,8 @@ const button = image.querySelector('.big-picture__cancel');
 const containerComments = image.querySelector('.social').querySelector('.social__comments');
 const bigMessage = document.querySelector('#big-message').content.querySelector('.social__comment');
 let dataBigPhoto = 10000000000000;
+let eschelp = 0;
+
 
 export function allfunctions(postS,arrayPhotos){
   const pictures = postS.querySelectorAll('.picture');
@@ -40,6 +42,7 @@ export function allfunctions(postS,arrayPhotos){
 
   for (let i = 0; i<pictures.length; i++){
     pictures[i].addEventListener('click',(evt)=> {
+      eschelp=1;
       evt.preventDefault();
       bigPhoto.classList.remove('hidden');
       document.querySelector('body').classList.add('modal-open');
@@ -53,12 +56,13 @@ export function allfunctions(postS,arrayPhotos){
     });
   }
   document.addEventListener('keydown', (evt)=> {
-    if (evt.keyCode === 27) {
+    if (evt.keyCode === 27 && eschelp===1) {
       bigPhoto.classList.add('hidden');
       document.querySelector('body').classList.remove('modal-open');
       totalComments.querySelector('.comments-last').textContent = '5';
       support(dataBigPhoto);
       load.classList.remove('hidden');
+      eschelp=0;
     }
   });
   button.addEventListener('click', (evt)=>{
