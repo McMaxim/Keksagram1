@@ -4,6 +4,7 @@
 import { appendpicture } from './appendpicture.js';
 import { allfunctions } from './head-photo.js';
 import './workForm.js';
+import './slider_rules.js';
 const getting = appendpicture(25);
 export const arrayPhotos = getting[1];
 console.log(arrayPhotos);
