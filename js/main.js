@@ -1,15 +1,26 @@
 /* eslint-disable no-unused-expressions */
 // const { create } = require("browser-sync");
 
-import { appendpicture } from './appendpicture.js';
+import { appendpicture, container } from './appendpicture.js';
 import { allfunctions } from './head-photo.js';
+import { getData } from './api.js';
 import './workForm.js';
 import './slider_rules.js';
-const getting = appendpicture(25);
-export const arrayPhotos = getting[1];
-console.log(arrayPhotos);
-export const posts = getting[0];
-console.log(posts);
-// console.log(posts.children);
-allfunctions(posts,arrayPhotos);
+const ERR = document.querySelector('.error-container');
+const ERRtext =  document.querySelector('.error-text');
+ERR.classList.add('hidden');
+function showErr (err) {
+  ERRtext.textContent = err;
+  ERR.classList.remove('hidden');
+}
+
+getData((wizards) => {
+  appendpicture(wizards);
+},(err) => showErr(err)
+);
+
+getData((wizards) => {
+  allfunctions(container,wizards);
+});
+
 
