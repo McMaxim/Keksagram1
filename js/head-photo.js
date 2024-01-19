@@ -27,6 +27,7 @@ export function allfunctions(postS,arrayPhotos){
       containerComments.appendChild(newBigMessage);
     }
   }
+
   load.addEventListener('click',(evt)=> {
     evt.preventDefault();
     if (+totalComments.querySelector('.comments-last').textContent+5<=arrayPhotos[dataBigPhoto].comments.length){

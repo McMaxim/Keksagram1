@@ -1390,6 +1390,7 @@ main {
   height: 100vh;;
   display: block;
   position: fixed;
+  z-index: 100;
 }
 .error-text{
 

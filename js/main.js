@@ -6,21 +6,32 @@ import { allfunctions } from './head-photo.js';
 import { getData } from './api.js';
 import './workForm.js';
 import './slider_rules.js';
-const ERR = document.querySelector('.error-container');
-const ERRtext =  document.querySelector('.error-text');
-ERR.classList.add('hidden');
-function showErr (err) {
-  ERRtext.textContent = err;
-  ERR.classList.remove('hidden');
-}
+import { showErr,debounce } from './util.js';
+import { setUserFormSubmit,hideModal } from './workForm.js';
+import { classicalFunction,discassFunction,randomFunction,randomWizards,rateWizards } from './filter.js';
+
+const RERENDER_DELAY = 500;
 
 getData((wizards) => {
   appendpicture(wizards);
+  allfunctions(container,wizards);
+  classicalFunction(debounce(()=> {
+    appendpicture(wizards);
+    allfunctions(container,wizards);
+  },RERENDER_DELAY));
+  randomFunction(debounce(()=> {
+    const data = randomWizards(wizards);
+    appendpicture(data);
+    allfunctions(container,data);
+  },RERENDER_DELAY,));
+
+  discassFunction(debounce(()=> {
+    const data = rateWizards(wizards);
+    appendpicture(data);
+    allfunctions(container,data);
+  },RERENDER_DELAY,));
+
 },(err) => showErr(err)
 );
 
-getData((wizards) => {
-  allfunctions(container,wizards);
-});
-
-
+setUserFormSubmit(hideModal);

@@ -1,9 +1,15 @@
+import { sendData } from './api.js';
+import { showAlert } from './util.js';
 export const uploadPicture = document.querySelector('#upload-file');
 const cancelButton = document.querySelector('#upload-cancel');
 const form = document.querySelector('.img-upload__form');
+const imgPreview = document.querySelector('.img-upload__preview').querySelector('img');
 const hashtagField = document.querySelector('.text__hashtags');
 const comtext = document.querySelector('.text__description');
+const submitButton = document.querySelector('#upload-submit');
+const effects = document.querySelectorAll('.effects__preview');
 let truble = 1;
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
 const pristine = new Pristine(form,{
   classTo: 'img-upload__text',
@@ -56,7 +62,7 @@ form.addEventListener('submit',(evt)=>{
   pristine.validate();
 });
 
-const hideModal = () => {
+export const hideModal = () => {
   document.querySelector('.img-upload__overlay').classList.add('hidden');
   document.body.classList.remove('modal-open');
   form.reset();
@@ -67,19 +73,24 @@ const hideModal = () => {
 const showModal = () => {
   document.querySelector('.img-upload__overlay').classList.remove('hidden');
   document.body.classList.add('modal-open');
-  // document.addEventListener('keydown',(evt)=> {
-  //   if (evt.keyCode === 27){
-  //     hideModal();
-  //   }
-  // });
 };
 
 
 uploadPicture.addEventListener('change',(evt)=> {
   evt.preventDefault();
-  showModal();
-});
+  const file = uploadPicture.files[0];
+  const fileName = file.name.toLowerCase();
 
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+
+    imgPreview.src = URL.createObjectURL(file);
+    for (let i of effects){
+      i.style.backgroundImage =  `url(${URL.createObjectURL(file)})`;}
+    showModal();
+  }
+});
 
 cancelButton.addEventListener('click', () => {
   hideModal();
@@ -108,3 +119,36 @@ comtext.addEventListener('mouseover',()=>{
 hashtagField.addEventListener('mouseout',()=>{
   truble=1;
 });
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Сохраняю...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Сохранить';
+};
+
+const setUserFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+        },
+        () => {
+          showAlert('Не удалось отправить форму. Попробуйте ещё раз');
+          unblockSubmitButton();
+          // поменять на ошибку
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+export {setUserFormSubmit};
